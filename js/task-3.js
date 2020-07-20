@@ -1,16 +1,15 @@
 "use strict";
 
 const findBestEmployee = function(employees) {
-  const arrayEmployeesValues = Object.values(employees);
-  const sortArray = arrayEmployeesValues.sort(function(a, b) {
-    return a - b;
-  });
-  const maxValues = sortArray[sortArray.length - 1];
+  let maxValues = 0;
+  let nameBestEmployee;
   for (const keys in employees) {
-    if (employees[keys] === Number(maxValues)) {
-      return keys;
+    if (maxValues < employees[keys]) {
+      maxValues = employees[keys];
+      nameBestEmployee = keys;
     }
   }
+  return nameBestEmployee;
 };
 
 /*

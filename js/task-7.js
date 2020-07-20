@@ -26,7 +26,8 @@ const account = {
   createTransaction(amount, type) {
     const transactionObj = {
       amount: amount,
-      type: type
+      type: type,
+      id: this.transactions.length + 1
     };
     return transactionObj;
   },
@@ -41,8 +42,6 @@ const account = {
     this.balance += amount;
     const newTransaction = this.createTransaction(amount, Transaction.DEPOSIT);
     this.transactions.push(newTransaction);
-    console.log(this.balance);
-    console.log(this.transactions);
   },
 
   /*
@@ -55,6 +54,7 @@ const account = {
    * о том, что снятие такой суммы не возможно, недостаточно средств.
    */
   withdraw(amount) {
+    const erorMessage = "снятие такой суммы не возможно, недостаточно средств!";
     if (amount < this.balance) {
       const newTransaction = this.createTransaction(
         amount,
@@ -62,7 +62,7 @@ const account = {
       );
       this.transactions.push(newTransaction);
     } else {
-      console.log("снятие такой суммы не возможно, недостаточно средств ");
+      return erorMessage;
     }
   },
 
@@ -77,13 +77,15 @@ const account = {
    * Метод ищет и возвращает объект транзации по id
    */
   getTransactionDetails(id) {
-    for (let i = 0; i < this.transactions.length; i += 1) {
-      if (i === id) {
-        return this.transactions[i];
-      } else {
-        console.log("транзакции с таким id не найдено!");
+    const erorMessage = "транзакции с таким id не найдено!";
+
+    for (const item of this.transactions) {
+      const { id: objId } = item;
+      if (objId === id) {
+        return item;
       }
     }
+    return erorMessage;
   },
 
   /*
@@ -117,8 +119,7 @@ console.log(account.withdraw(100));
 console.log(account.withdraw(50));
 console.log(account.withdraw(10000));
 console.log(account.getBalance());
-console.log(account.getTransactionDetails(0));
-console.log(account.getTransactionDetails(1));
+
 console.log(
   "всего положено средств: ",
   account.getTransactionTotal(Transaction.DEPOSIT)
@@ -127,3 +128,8 @@ console.log(
   "всего снято средств: ",
   account.getTransactionTotal(Transaction.WITHDRAW)
 );
+
+console.log(account.getTransactionDetails(1));
+console.log(account.getTransactionDetails(0));
+console.log(account.getTransactionDetails(3));
+console.log(account.transactions);
