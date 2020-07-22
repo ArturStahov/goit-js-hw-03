@@ -1,4 +1,5 @@
 "use strict";
+
 const products = [
   { name: "Радар", price: 1300, quantity: 4 },
   { name: "Сканер", price: 2700, quantity: 3 },
@@ -9,12 +10,10 @@ const products = [
 const calculateTotalPrice = function(allProdcuts, productName) {
   let calcProducts = 0;
   for (const item of allProdcuts) {
-    for (const key in item) {
-      if (item[key] === productName) {
-        const { price, quantity } = item;
-        calcProducts = price * quantity;
-        return calcProducts;
-      }
+    if (item.name === productName) {
+      const { price, quantity } = item;
+      calcProducts = price * quantity;
+      return calcProducts;
     }
   }
 };
